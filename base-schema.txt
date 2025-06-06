@@ -1,0 +1,70 @@
+Table: customers
+- id (PK)
+- name (string)
+- phone (string)
+- address (string)
+- email (nullable string)
+- created_at
+- updated_at
+
+Table: orders
+- id (PK)
+- customer_id (FK to customers.id)
+- order_date (date)
+- due_date (date)
+- service_type (enum: ['repair', 'custom', 'uniform', 'curtain', 'alteration'])
+- description (text)          // e.g., "Fix zipper", "Make 2 school uniforms"
+- status (enum: ['pending', 'in_progress', 'completed', 'delivered'])
+- total_price (decimal 8,2)
+- notes (nullable text)
+- created_at
+- updated_at
+
+Table: order_items
+- id (PK)
+- order_id (FK to orders.id)
+- item_name (string)          // e.g., Shorts, Curtain, Uniform
+- quantity (integer)
+- price (decimal 8,2)
+- note (nullable string)
+- created_at
+- updated_at
+
+Table: measurements
+- id (PK)
+- customer_id (FK to customers.id)
+- order_id (nullable FK to orders.id)
+- measurement_date (date)
+- neck (nullable decimal 5,2)
+- shoulder (nullable decimal 5,2)
+- chest (nullable decimal 5,2)
+- waist (nullable decimal 5,2)
+- hip (nullable decimal 5,2)
+- sleeve_length (nullable decimal 5,2)
+- inseam (nullable decimal 5,2)
+- outseam (nullable decimal 5,2)
+- thigh (nullable decimal 5,2)
+- ankle (nullable decimal 5,2)
+- back_length (nullable decimal 5,2)
+- notes (nullable text)
+- created_at
+- updated_at
+
+Table: payments
+- id (PK)
+- order_id (FK to orders.id)
+- amount_paid (decimal 8,2)
+- payment_method (enum: ['cash', 'gcash', 'bank'])
+- payment_date (date)
+- created_at
+- updated_at
+
+Table: fitting_sessions (optional)
+- id (PK)
+- order_id (FK to orders.id)
+- session_date (date)
+- feedback (nullable text)
+- adjustments_needed (nullable text)
+- is_final_fitting (boolean)
+- created_at
+- updated_at

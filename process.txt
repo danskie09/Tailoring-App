@@ -1,0 +1,62 @@
+
+
+### Tailoring System – Business Workflow Guide
+
+---
+
+1. **Customer Entry**
+
+   * Record new customer details: Full Name, Phone Number, Address, (optional) Email.
+   * For returning customers, select existing profile.
+
+2. **Create an Order**
+
+   * Choose service type:
+
+     * Repair (e.g., fixing zipper, holes)
+     * Custom (making full outfit from scratch)
+     * Uniform (bulk sewing of school or work uniforms)
+     * Curtain (making curtains)
+     * Alteration (adjustments like shortening or resizing)
+   * Record order date and expected due date.
+   * Write a description of the job.
+   * Set status: pending, in\_progress, completed, or delivered.
+   * Enter total price and any additional notes.
+
+3. **Add Order Items (if needed)**
+
+   * Add one or more items per order (e.g., 2 skirts + 1 blouse).
+   * For each item, record: Name, Quantity, Price, Optional Notes.
+
+4. **Record Measurements (optional)**
+
+   * Required only for custom or uniform orders.
+   * Save measurements per customer or per order (chest, waist, hip, sleeve, inseam, etc.).
+   * Add any notes for special body conditions or preferences.
+
+5. **Payments**
+
+   * Log payments per order: Amount Paid, Payment Method (cash, GCash, bank), Payment Date.
+   * Support multiple partial payments.
+
+6. **Fitting Sessions (optional)**
+
+   * Log fitting dates, customer feedback, adjustments needed.
+   * Mark final fitting when done.
+
+7. **Complete Order**
+
+   * Change order status to completed when finished.
+   * Deliver item to customer and mark order as delivered.
+
+---
+
+**Notes:**
+
+* Customers can have multiple orders.
+* Orders may include multiple items and payments.
+* Measurements can be reused or updated per order.
+
+---
+
+
