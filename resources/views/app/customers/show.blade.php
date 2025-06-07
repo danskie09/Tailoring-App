@@ -31,7 +31,7 @@
                     <p class="text-gray-600">View and manage customer information</p>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <a href="{{ route('customers.edit', $id) }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+                    <a href="{{ route('customers.edit', $customer) }}" class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
@@ -55,11 +55,11 @@
                     <div class="p-6 border-b border-gray-200">
                         <div class="flex items-center space-x-4">
                             <div class="w-16 h-16 bg-gradient-to-br from-peach-400 to-rose-400 rounded-full flex items-center justify-center">
-                                <span class="text-white text-xl font-bold">CU</span>
+                                <span class="text-white text-xl font-bold">{{ $customer->initials }}</span>
                             </div>
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-800">Customer Name</h3>
-                                <p class="text-sm text-gray-600">Customer ID: #{{ $id }}</p>
+                                <h3 class="text-lg font-semibold text-gray-800">{{ $customer->name }}</h3>
+                                <p class="text-sm text-gray-600">Customer ID: #{{ $customer->id }}</p>
                                 <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mt-1">
                                     Active
                                 </span>
@@ -75,20 +75,20 @@
                                 <svg class="w-4 h-4 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                 </svg>
-                                <span class="text-sm text-gray-600">Phone number will appear here</span>
+                                <span class="text-sm text-gray-600">{{ $customer->phone }}</span>
                             </div>
                             <div class="flex items-center">
                                 <svg class="w-4 h-4 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
                                 </svg>
-                                <span class="text-sm text-gray-600">Email will appear here</span>
+                                <span class="text-sm text-gray-600">{{ $customer->email ?: 'No email provided' }}</span>
                             </div>
                             <div class="flex items-start">
                                 <svg class="w-4 h-4 text-gray-400 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
-                                <span class="text-sm text-gray-600">Address will appear here</span>
+                                <span class="text-sm text-gray-600">{{ $customer->address }}</span>
                             </div>
                         </div>
                     </div>
@@ -98,11 +98,11 @@
                         <h4 class="text-sm font-medium text-gray-900 mb-4">Customer Stats</h4>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="text-center">
-                                <p class="text-2xl font-bold text-gray-800">0</p>
+                                <p class="text-2xl font-bold text-gray-800">{{ $stats['total_orders'] }}</p>
                                 <p class="text-xs text-gray-600">Total Orders</p>
                             </div>
                             <div class="text-center">
-                                <p class="text-2xl font-bold text-gray-800">₱0</p>
+                                <p class="text-2xl font-bold text-gray-800">₱{{ number_format($stats['total_spent'], 2) }}</p>
                                 <p class="text-xs text-gray-600">Total Spent</p>
                             </div>
                         </div>
@@ -127,17 +127,42 @@
                     </div>
                     
                     <div class="p-6">
-                        <!-- Empty State -->
-                        <div class="text-center py-8">
-                            <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                            </svg>
-                            <h4 class="text-lg font-medium text-gray-900 mb-2">No orders yet</h4>
-                            <p class="text-gray-500 mb-4">This customer hasn't placed any orders yet.</p>
-                            <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-peach-500 to-rose-500 hover:from-peach-600 hover:to-rose-600 text-white text-sm font-medium rounded-lg transition-colors">
-                                Create First Order
-                            </button>
-                        </div>
+                        @if($customer->orders && $customer->orders->count() > 0)
+                            <div class="space-y-4">
+                                @foreach($customer->orders as $order)
+                                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                                        <div>
+                                            <h5 class="font-medium text-gray-900">Order #{{ $order->id }}</h5>
+                                            <p class="text-sm text-gray-500">{{ $order->created_at->format('M d, Y') }}</p>
+                                            <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium 
+                                                @if($order->status === 'completed') bg-green-100 text-green-800
+                                                @elseif($order->status === 'pending') bg-yellow-100 text-yellow-800
+                                                @elseif($order->status === 'in_progress') bg-blue-100 text-blue-800
+                                                @else bg-gray-100 text-gray-800
+                                                @endif">
+                                                {{ ucfirst(str_replace('_', ' ', $order->status)) }}
+                                            </span>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="font-semibold text-gray-900">₱{{ number_format($order->total_price, 2) }}</p>
+                                            <p class="text-sm text-gray-500">{{ $order->items()->count() }} items</p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <!-- Empty State -->
+                            <div class="text-center py-8">
+                                <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">No orders yet</h4>
+                                <p class="text-gray-500 mb-4">This customer hasn't placed any orders yet.</p>
+                                <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-peach-500 to-rose-500 hover:from-peach-600 hover:to-rose-600 text-white text-sm font-medium rounded-lg transition-colors">
+                                    Create First Order
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
 
@@ -156,17 +181,39 @@
                     </div>
                     
                     <div class="p-6">
-                        <!-- Empty State -->
-                        <div class="text-center py-8">
-                            <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM7 3H5a2 2 0 00-2 2v12a4 4 0 004 4h2M9 3h6a2 2 0 012 2v12a4 4 0 01-4 4H9"></path>
-                            </svg>
-                            <h4 class="text-lg font-medium text-gray-900 mb-2">No measurements recorded</h4>
-                            <p class="text-gray-500 mb-4">Add customer measurements for better fitting orders.</p>
-                            <button class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors">
-                                Record Measurements
-                            </button>
-                        </div>
+                        @if($customer->measurements && $customer->measurements->count() > 0)
+                            <div class="space-y-4">
+                                @foreach($customer->measurements as $measurement)
+                                    <div class="p-4 border border-gray-200 rounded-lg">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h5 class="font-medium text-gray-900">{{ $measurement->garment_type }}</h5>
+                                            <span class="text-sm text-gray-500">{{ $measurement->measurement_date->format('M d, Y') }}</span>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-2 text-sm">
+                                            @if($measurement->chest) <div><span class="text-gray-600">Chest:</span> {{ $measurement->chest }}cm</div> @endif
+                                            @if($measurement->waist) <div><span class="text-gray-600">Waist:</span> {{ $measurement->waist }}cm</div> @endif
+                                            @if($measurement->length) <div><span class="text-gray-600">Length:</span> {{ $measurement->length }}cm</div> @endif
+                                            @if($measurement->sleeve_length) <div><span class="text-gray-600">Sleeve:</span> {{ $measurement->sleeve_length }}cm</div> @endif
+                                        </div>
+                                        @if($measurement->notes)
+                                            <p class="text-sm text-gray-600 mt-2">{{ $measurement->notes }}</p>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <!-- Empty State -->
+                            <div class="text-center py-8">
+                                <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM7 3H5a2 2 0 00-2 2v12a4 4 0 004 4h2M9 3h6a2 2 0 012 2v12a4 4 0 01-4 4H9"></path>
+                                </svg>
+                                <h4 class="text-lg font-medium text-gray-900 mb-2">No measurements recorded</h4>
+                                <p class="text-gray-500 mb-4">Add customer measurements for better fitting orders.</p>
+                                <button class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors">
+                                    Record Measurements
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

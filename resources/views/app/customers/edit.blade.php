@@ -18,7 +18,7 @@
         <!-- Page Header -->
         <div class="mb-8">
             <div class="flex items-center space-x-3 mb-4">
-                <a href="{{ route('customers.show', $id) }}" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
+                <a href="{{ route('customers.show', $customer) }}" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
                     <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
@@ -38,14 +38,30 @@
                         <p class="text-sm text-gray-600 mt-1">Update the customer's basic information below.</p>
                     </div>
                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        Customer ID: #{{ $id }}
+                        Customer ID: #{{ $customer->id }}
                     </span>
                 </div>
             </div>
             
-            <form action="{{ route('customers.update', $id) }}" method="POST" class="p-6">
+            <form action="{{ route('customers.update', $customer) }}" method="POST" class="p-6">
                 @csrf
                 @method('PUT')
+                
+                @if ($errors->any())
+                    <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <div class="flex items-center mb-2">
+                            <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <h4 class="text-sm font-medium text-red-800">Please correct the following errors:</h4>
+                        </div>
+                        <ul class="text-sm text-red-700 list-disc list-inside space-y-1">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Name -->
@@ -54,9 +70,12 @@
                             Full Name <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="name" id="name" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-peach-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border @error('name') border-red-300 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-peach-500 focus:border-transparent"
                             placeholder="Enter customer's full name"
-                            value="">
+                            value="{{ old('name', $customer->name) }}">
+                        @error('name')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Phone -->
@@ -65,9 +84,12 @@
                             Phone Number <span class="text-red-500">*</span>
                         </label>
                         <input type="tel" name="phone" id="phone" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-peach-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border @error('phone') border-red-300 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-peach-500 focus:border-transparent"
                             placeholder="+63 912 345 6789"
-                            value="">
+                            value="{{ old('phone', $customer->phone) }}">
+                        @error('phone')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Email -->
@@ -76,9 +98,12 @@
                             Email Address
                         </label>
                         <input type="email" name="email" id="email"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-peach-500 focus:border-transparent"
+                            class="w-full px-4 py-3 border @error('email') border-red-300 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-peach-500 focus:border-transparent"
                             placeholder="customer@example.com"
-                            value="">
+                            value="{{ old('email', $customer->email) }}">
+                        @error('email')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Address -->
@@ -87,8 +112,11 @@
                             Address <span class="text-red-500">*</span>
                         </label>
                         <textarea name="address" id="address" rows="3" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-peach-500 focus:border-transparent resize-none"
-                            placeholder="Enter complete address"></textarea>
+                            class="w-full px-4 py-3 border @error('address') border-red-300 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-peach-500 focus:border-transparent resize-none"
+                            placeholder="Enter complete address">{{ old('address', $customer->address) }}</textarea>
+                        @error('address')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 
@@ -104,7 +132,7 @@
                         </button>
                     </div>
                     <div class="flex gap-3">
-                        <a href="{{ route('customers.show', $id) }}" 
+                        <a href="{{ route('customers.show', $customer) }}" 
                             class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">
                             Cancel
                         </a>
@@ -126,15 +154,21 @@
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Customer Activity Summary</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="text-center p-4 bg-gray-50 rounded-lg">
-                        <p class="text-2xl font-bold text-gray-800">0</p>
+                        <p class="text-2xl font-bold text-gray-800">{{ $customer->orders()->count() }}</p>
                         <p class="text-sm text-gray-600">Total Orders</p>
                     </div>
                     <div class="text-center p-4 bg-gray-50 rounded-lg">
-                        <p class="text-2xl font-bold text-gray-800">₱0</p>
+                        <p class="text-2xl font-bold text-gray-800">₱{{ number_format($customer->orders()->sum('total_price'), 2) }}</p>
                         <p class="text-sm text-gray-600">Total Spent</p>
                     </div>
                     <div class="text-center p-4 bg-gray-50 rounded-lg">
-                        <p class="text-2xl font-bold text-gray-800">-</p>
+                        <p class="text-2xl font-bold text-gray-800">
+                            @if($customer->orders()->exists())
+                                {{ $customer->orders()->latest()->first()->created_at->format('M d, Y') }}
+                            @else
+                                -
+                            @endif
+                        </p>
                         <p class="text-sm text-gray-600">Last Order</p>
                     </div>
                 </div>
@@ -156,7 +190,7 @@
                 <button onclick="closeDeleteModal()" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
                     Cancel
                 </button>
-                <form action="{{ route('customers.destroy', $id) }}" method="POST" class="inline">
+                <form action="{{ route('customers.destroy', $customer) }}" method="POST" class="inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
