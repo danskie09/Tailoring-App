@@ -43,13 +43,13 @@
                         </div>
                     </div>
                     <div class="space-y-3">
-                        <a href="#" class="block w-full text-left px-4 py-3 bg-gradient-to-r from-peach-50 to-rose-50 hover:from-peach-100 hover:to-rose-100 rounded-lg transition-colors">
+                        <a href="{{ route('customers.index') }}" class="block w-full text-left px-4 py-3 bg-gradient-to-r from-peach-50 to-rose-50 hover:from-peach-100 hover:to-rose-100 rounded-lg transition-colors">
                             <span class="text-sm font-medium text-gray-800">View All Customers</span>
                         </a>
-                        <a href="#" class="block w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                        <a href="{{ route('customers.create') }}" class="block w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
                             <span class="text-sm font-medium text-gray-800">Add New Customer</span>
                         </a>
-                        <a href="#" class="block w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                        <a href="{{ route('customers.search') }}" class="block w-full text-left px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
                             <span class="text-sm font-medium text-gray-800">Search Customers</span>
                         </a>
                     </div>
