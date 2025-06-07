@@ -17,6 +17,14 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <!-- Page Header -->
         <div class="mb-8">
+            <div class="flex items-center space-x-3 mb-4">
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Back to Dashboard
+                </a>
+            </div>
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <h1 class="text-2xl sm:text-3xl font-serif font-bold text-gray-800 mb-2">Customers</h1>
